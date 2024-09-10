@@ -1,0 +1,285 @@
+---
+title: "Ước tính R~t~ của Sởi năm 2019"
+author: "AA"
+format:
+  html:
+    embed-resources: true
+    code-fold: true
+    fig-format: svg
+    df-print: paged
+    toc: true
+---
+
+## 1. Serial interval
+
+We assumed the serial interval to be gamma distributed with mean of **14.5 days** and standard deviation of **3.25 days**, discretized to whole numbers of days, consistent with measles transmission intervals ranging from 7 days to 21 days, with mean near 14 days ([Gastañaduy et al., 2018b](https://www.sciencedirect.com/science/article/pii/S1755436519300507?via%3Dihub#bib0055)).
+
+## 2. Estimate R~t~
+
+**Load data**
+
+```{r}
+#| warning: false
+#| message: false
+
+library(readxl)
+library(EpiEstim)
+library(ggplot2)
+library(dplyr)
+library(janitor)
+library(tidyr)
+library(knitr)
+library(lubridate)
+```
+
+```{r}
+#| warning: false
+#| message: false
+
+df <- read_xlsx("C:/Users/Admin/Desktop/modelling/data/linelist_measles_hcmc.xlsx", 
+    sheet = "DS 2013-2023")
+df <- as.data.frame(df)
+head(df)
+```
+
+**Clean data**
+
+```{r}
+#| warning: false
+#| message: false
+df <- df %>% clean_names()
+df <- df %>% rename(dates = x0_ngaynv)
+df <- df[,c("dates", "stt")]
+df_convert <- df %>% group_by(dates) %>% 
+  summarise(I = n())
+```
+
+
+```{r}
+#| warning: false
+#| message: false
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+```
+
+```{r}
+#| warning: true
+#| message: true
+
+mod_raw <- estimate_R(
+  incid = df_complete, 
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25
+    )
+  )
+)
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| fig-width: 14
+#| fig-height: 9
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence", title = "2013 - 2023") +
+    theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+    scale_x_date(date_labels = "%b %Y", date_breaks = "3 month")
+```
+
+```{r}
+# Lọc dữ liệu từ 09/2018 - 31/12/2019
+df_filter_2019 <- filter(df_complete, dates>="2018-09-01" & dates<="2019-12-31")
+```
+
+```{r}
+#| warning: true
+#| message: true
+
+mod_1w <- estimate_R(
+  incid = df_filter_2019, 
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25
+    )
+  )
+)
+
+df_rt_1w <- mod_1w$R
+df_rt_1w$dates <- mod_1w$dates[df_rt_1w$t_end]
+df_rt_1w$q1_rt <- df_rt_1w$`Quantile.0.025(R)`
+df_rt_1w$q3_rt <- df_rt_1w$`Quantile.0.975(R)`
+df_rt_1w$rt <- df_rt_1w$`Mean(R)`
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| fig-width: 14
+#| fig-height: 9
+
+library(patchwork)
+p_hist <- ggplot(df_filter_2019, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence", title = "01/09/2018 - 31/12/2019") +
+    theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2019-12-31")))
+
+p_1w <- ggplot(df_rt_1w, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "darkorange") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt", title = "1 Week") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2019-12-31"))) +
+  scale_y_continuous(limits = c(0, 20))
+
+p_hist / p_1w
+```
+
+**Sliding Window as 1 day, 2 week, 1 month**
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+
+t_start <- seq(2, nrow(df_filter_2019)-1)
+t_end <- t_start + 1
+
+mod_day <- estimate_R(
+  incid = df_filter_2019, 
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25,
+      t_start = t_start,
+      t_end = t_end
+    )
+  )
+)
+
+# Lấy dữ liệu ra để vẽ Rt
+df_rt_day <- mod_day$R
+df_rt_day$dates <- mod_day$dates[df_rt_day$t_end]
+df_rt_day$q1_rt <- df_rt_day$`Quantile.0.025(R)`
+df_rt_day$q3_rt <- df_rt_day$`Quantile.0.975(R)`
+df_rt_day$rt <- df_rt_day$`Mean(R)`
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+
+t_start <- seq(2, nrow(df_filter_2019)-13)
+t_end <- t_start + 13
+
+mod_2w <- estimate_R(
+  incid = df_filter_2019, 
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25,
+      t_start = t_start,
+      t_end = t_end
+    )
+  )
+)
+
+# Lấy dữ liệu ra để vẽ Rt
+df_rt_2w <- mod_2w$R
+df_rt_2w$dates <- mod_2w$dates[df_rt_2w$t_end]
+df_rt_2w$q1_rt <- df_rt_2w$`Quantile.0.025(R)`
+df_rt_2w$q3_rt <- df_rt_2w$`Quantile.0.975(R)`
+df_rt_2w$rt <- df_rt_2w$`Mean(R)`
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+
+t_start <- seq(2, nrow(df_filter_2019)-27)
+t_end <- t_start + 27
+
+mod_month <- estimate_R(
+  incid = df_filter_2019, 
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25,
+      t_start = t_start,
+      t_end = t_end
+    )
+  )
+)
+
+# Lấy dữ liệu ra để vẽ Rt
+df_rt_month <- mod_month$R
+df_rt_month$dates <- mod_month$dates[df_rt_month$t_end]
+df_rt_month$q1_rt <- df_rt_month$`Quantile.0.025(R)`
+df_rt_month$q3_rt <- df_rt_month$`Quantile.0.975(R)`
+df_rt_month$rt <- df_rt_month$`Mean(R)`
+```
+
+```{r}
+#| warning: false
+#| message: false
+#| fig-height: 8
+#| fig-width: 14
+#| fig-cap: "Rt for each of custom sliding window"
+
+library(patchwork)
+
+# Biểu đồ cho 1 ngày
+p_day <- ggplot(df_rt_day, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "darkorange") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt", title = "1 Day") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2019-12-31"))) +
+  scale_y_continuous(limits = c(0, 20))
+
+# Biểu đồ cho 2 tuần
+p_2w <- ggplot(df_rt_2w, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "darkorange") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt", title = "2 Week") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2019-12-31"))) +
+  scale_y_continuous(limits = c(0, 30))
+
+# Biểu đồ cho 1 tháng
+p_month <- ggplot(df_rt_month, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "darkorange") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt", title = "1 Month") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2019-12-31"))) +
+  scale_y_continuous(limits = c(0, 20))
+
+(p_day + p_1w)/(p_2w + p_month)
+```
