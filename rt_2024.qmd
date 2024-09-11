@@ -1,5 +1,5 @@
 ---
-title: "Ước tính R~t~ của Sởi năm 2019"
+title: "Ước tính R~t~ của Sởi năm 2024"
 author: "AA"
 format:
   html:
