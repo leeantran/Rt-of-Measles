@@ -127,6 +127,7 @@ p_raw <- ggplot(df_rt_raw, aes(x = dates)) +
 
 p_hist_raw / p_raw
 ```
+
 Khi ước tính R~t~ từ 04/03/2024 thì có thể là quá sớm vì các ca bệnh xuất hiện lẻ tẻ từ 04/03/2024 đến tầm 20/5/2024. Số ca bệnh bắt đầu xuất hiện liên tục từ 23/05/2024 nên sẽ ước tính Rt từ ngày này.
 
 ```{r}
@@ -181,7 +182,7 @@ p2 <- ggplot(df_rt_1w, aes(x = dates)) +
   geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
   geom_line(aes(y = rt), color = "darkorange") +
   geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
-  labs(x = "Day", y = "Rt", title = "04/03/2024 - 23/08/2024") +
+  labs(x = "Day", y = "Rt", title = "23/05/2024 - 23/08/2024") +
   theme_minimal() +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-23"), ymd("2024-08-23"))) +
   scale_y_continuous(limits = c(0, 20))
