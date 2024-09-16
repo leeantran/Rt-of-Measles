@@ -1,29 +1,12 @@
----
-title: "Ước tính R~t~ của Sởi năm 2024"
-author: "AA"
-format:
-  html:
-    embed-resources: true
-    code-fold: true
-    fig-format: svg
-    df-print: paged
-    toc: true
----
+# Ước tính R~t~ của Sởi năm 2024
 
-## 1. Serial interval
+## Serial interval
 
-We assumed the serial interval to be gamma distributed with mean of **14.5 days** and standard deviation of **3.25 days**, discretized to whole numbers of days, consistent with measles transmission intervals ranging from 7 days to 21 days, with mean near 14 days ([Gastañaduy et al., 2018b](https://www.sciencedirect.com/science/article/pii/S1755436519300507?via%3Dihub#bib0055)).
+-   Dữ liệu hiện có không thể tính được ***Serial interval*** theo định nghĩa. Do đó, sẽ dựa vào y văn và chọn ***Serial interval*** có trung bình là **14.5 ngày** và độ lệch chuẩn là **3.25 ngày** [@worden2020e].
 
-## 2. Estimate R~t~
-
-### Data
-
-**Load data**
+## Ước tính R~t~
 
 ```{r}
-#| warning: false
-#| message: false
-
 library(readxl)
 library(EpiEstim)
 library(ggplot2)
@@ -32,11 +15,6 @@ library(janitor)
 library(tidyr)
 library(knitr)
 library(lubridate)
-```
-
-```{r}
-#| warning: false
-#| message: false
 
 df <- read_xlsx("C:/Users/Admin/Desktop/modelling/data/20240826_case_noti.xlsx", sheet = "solieu_HCM-DCD-ODICH")
 df <- as.data.frame(df)
@@ -48,32 +26,11 @@ head(df)
 ```{r}
 #| warning: false
 #| message: false
+
 df <- df %>% clean_names()
-df <- df %>% rename(dates = ngay_khoi_phat_1, I = cd_tong)
+df <- df %>% rename(dates = ngay_khoi_phat_1, I = ketqua)
 df <- df[,c("dates", "I")]
 df <- na.omit(df)
-```
-
-**Plot data**
-
-```{r}
-#| warning: false
-#| message: false
-#| fig-cap: "Incidence of Measles until 06/2024"
-#| fig-width: 4
-#| fig-height: 2.5
-#| out-width: "100%"
-
-ggplot(df, aes(x = dates, y = I)) +
-  geom_point() + labs(x = "Months", y = "Incidence") + 
-  theme_minimal()
-```
-
-### Estimate R~t~
-
-```{r}
-#| warning: false
-#| message: false
 
 df_complete <- df %>%
     complete(dates = seq(min(dates), max(dates), by = "day")) %>%
@@ -82,12 +39,16 @@ df_complete <- df %>%
 df_complete$dates <- as.Date(df_complete$dates)
 ```
 
+**Ước tính hệ số lây nhiễm R~t~**
+
+-   Bộ dữ liệu bao gồm những ca Sởi xác định (Sởi lâm sàng + Sởi xét nghiệm dương tính) từ ngày **04/03/2024** đến **23/08/2024**. Sử dụng ***ngày khởi phát*** để ước tính ***R~t~*** .
+
 ```{r}
 #| warning: true
 #| message: true
 
 mod_raw <- estimate_R(
-  incid = df_complete, 
+  incid = df_complete, # Dữ liệu từ 04/03/2024 đến 23/08/2024 
   method = "parametric_si", 
   config = make_config(
     list(
@@ -103,11 +64,10 @@ df_rt_raw$q1_rt <- df_rt_raw$`Quantile.0.025(R)`
 df_rt_raw$q3_rt <- df_rt_raw$`Quantile.0.975(R)`
 df_rt_raw$rt <- df_rt_raw$`Mean(R)`
 ```
-```{r}
-#| warning: false
-#| message: false
 
+```{r}
 library(patchwork)
+
 p_hist_raw <- ggplot(df_complete, aes(x = dates, y = I)) +
     geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
     labs(x = "Day", y = "Incidence") +
@@ -119,28 +79,23 @@ p_raw <- ggplot(df_rt_raw, aes(x = dates)) +
   geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
   geom_line(aes(y = rt), color = "darkorange") +
   geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
-  labs(x = "Day", y = "Rt", title = "04/03/2024 - 23/08/2024") +
+  labs(x = "Day", y = "Rt", title = "04/03/2024 - 18/08/2024") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-03-04"), ymd("2024-08-23"))) +
   scale_y_continuous(limits = c(0, 20))
 
-p_hist_raw / p_raw
+p_hist_raw/p_raw
 ```
 
-Khi ước tính R~t~ từ 04/03/2024 thì có thể là quá sớm vì các ca bệnh xuất hiện lẻ tẻ từ 04/03/2024 đến tầm 20/5/2024. Số ca bệnh bắt đầu xuất hiện liên tục từ 23/05/2024 nên sẽ ước tính Rt từ ngày này.
+-   Khi ước tính ***R~t~*** từ 04/03/2024 thì có thể là quá sớm vì các ca bệnh xuất hiện lẻ tẻ từ 04/03/2024 đến khoảng 20/5/2024. Số ca bệnh bắt đầu xuất hiện liên tục từ 23/05/2024 nên sẽ ước tính ***Rt*** từ ngày này. Do đó, ***R~t~*** sẽ được ước tính từ **23/05/2024** đến **23/08/2024**.
 
 ```{r}
 # Lọc dữ liệu từ 23/05/2024 - end
 df_filter <- filter(df_complete, dates >= "2024-05-23")
 ```
 
-**Ước tính Rt với sliding window là 1 tuần**
-
 ```{r}
-#| warning: false
-#| message: false
-
 mod_1w <- estimate_R(
   incid = df_filter, 
   method = "parametric_si", 
@@ -151,12 +106,7 @@ mod_1w <- estimate_R(
     )
   )
 )
-```
-
-```{r}
-#| warning: false
-#| message: false
-
+# Lấy dữ liệu ra để vẽ Rt
 df_rt_1w <- mod_1w$R
 df_rt_1w$dates <- mod_1w$dates[df_rt_1w$t_end]
 df_rt_1w$q1_rt <- df_rt_1w$`Quantile.0.025(R)`
@@ -164,21 +114,21 @@ df_rt_1w$q3_rt <- df_rt_1w$`Quantile.0.975(R)`
 df_rt_1w$rt <- df_rt_1w$`Mean(R)`
 ```
 
-
 ```{r}
-#| warning: false
-#| message: false
-#| fig-cap: "Combined Incidence and Rt"
+#| fig-height: 7
+#| fig-width: 14
 
 library(patchwork)
 
-p1 <- ggplot(df_filter, aes(x = dates, y = I)) +
+# Biểu đồ đường cong dịch
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
     geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
     labs(x = "Day", y = "Incidence") +
     theme_minimal() +
     scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-23"), ymd("2024-08-23")))
 
-p2 <- ggplot(df_rt_1w, aes(x = dates)) +
+# Biểu đồ cho 1 tuần
+p_1w <- ggplot(df_rt_1w, aes(x = dates)) +
   geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
   geom_line(aes(y = rt), color = "darkorange") +
   geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
@@ -186,25 +136,20 @@ p2 <- ggplot(df_rt_1w, aes(x = dates)) +
   theme_minimal() +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-23"), ymd("2024-08-23"))) +
   scale_y_continuous(limits = c(0, 20))
-
-p1 / p2
 ```
+
 ```{r}
 #| fig-height: 7
 #| fig-width: 14
 
 library(patchwork)
 
-(p_hist_raw + p1) / (p_raw + p2)
+(p_hist_raw + p_hist) / (p_raw + p_1w)
 ```
 
-
-**Sliding Window as 1 day, 2 week, 1 month**
+-   Trong lệnh `esimate_R`, chúng ta có thể tùy chọn ***Sliding window (SW)*** khác nhau để thể hiện kết quả ước tính ***R~t~***. ***Sliding window*** là khoảng thời gian chúng ta dùng để xác định ***R~t~***, ví dụ nếu chúng ta chọn ***SW = 7*** thì giá trị ***R~t~*** sẽ được tính bằng trung bình của 7 ngày. Vậy chúng ta nên chọn \***SW** bằng bao nhiêu? Chúng ta vẽ thử 4 trường hợp của ***SW*** lần lượt là: mỗi ngày, mỗi tuần, mỗi 2 tuần và mỗi tháng để lựa chọn.
 
 ```{r}
-#| warning: false
-#| message: false
-#| echo: false
 
 t_start <- seq(2, nrow(df_filter)-1)
 t_end <- t_start + 1
@@ -231,10 +176,6 @@ df_rt_day$rt <- df_rt_day$`Mean(R)`
 ```
 
 ```{r}
-#| warning: false
-#| message: false
-#| echo: false
-
 t_start <- seq(2, nrow(df_filter)-13)
 t_end <- t_start + 13
 
@@ -260,10 +201,6 @@ df_rt_2w$rt <- df_rt_2w$`Mean(R)`
 ```
 
 ```{r}
-#| warning: false
-#| message: false
-#| echo: false
-
 t_start <- seq(2, nrow(df_filter)-27)
 t_end <- t_start + 27
 
@@ -289,13 +226,17 @@ df_rt_month$rt <- df_rt_month$`Mean(R)`
 ```
 
 ```{r}
-#| warning: false
-#| message: false
-#| fig-height: 7
-#| fig-width: 14
-#| fig-cap: "Rt for each of custom sliding window"
+#| fig-height: 20
+#| fig-width: 20
 
 library(patchwork)
+
+# Biểu đồ đường cong dịch
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-23"), ymd("2024-08-23")))
 
 # Biểu đồ cho 1 tuần
 p_1w <- ggplot(df_rt_1w, aes(x = dates)) +
@@ -337,6 +278,37 @@ p_month <- ggplot(df_rt_month, aes(x = dates)) +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-23"), ymd("2024-08-23"))) +
   scale_y_continuous(limits = c(0, 20))
 
-(p_day + p_1w)/(p_2w + p_month)
+((p_hist + p_hist)/(p_day + p_1w)) + ((p_hist + p_hist)/(p_2w + p_month))
 ```
-R~t~ cao khi số ca bắt đầu tăng đột ngột và liên tục, càng về sau R~t~ giảm xuống gần bằng **1** nhưng không duy trì được giá trị **R~t~ < 1**. Với **Sliding window = 1 tuần** thì **R~t~ ~ 14**; **Sliding window = 2 tuần** thì **R~t~ ~ 21**; các khoảng **Sliding window** khác có giá trị **R~t~** thấp hơn rất nhiều vào ngày ước tính đầu tiên.
+
+-   ***R~t~*** cao khi số ca bắt đầu tăng đột ngột và liên tục, càng về sau ***R~t~*** giảm xuống gần bằng **1** nhưng không duy trì được giá trị **R~t~ \< 1** chứng tỏ dịch vẫn đang diễn ra. Với **SW = 1 tuần** thì **R~t~ \~ 14**; **Sliding window = 2 tuần** thì **R~t~ \~ 19**; các khoảng **Sliding window** khác có giá trị **R~t~** thấp hơn rất nhiều vào ngày ước tính đầu tiên. Theo lý thuyết, ***R~t~*** sẽ cao khoảng thời gian đầu do dịch mới bùng phát mà 2 tuần trước đó không có ca bệnh xuất hiện liên tục. Do đó, chúng ta chọn giữa ***SW = 7*** hoặc ***SW = 14*** để ước tính.
+
+-   Tuy nhiên, kết quả cho thấy ***R~t~*** được ước tính với ***SW là 2 tuần*** cho kết quả ổn định hơn, giá trị không lên xuống thất thường nên phù hợp để xem xét và đánh giá diễn tích của dịch. Ngoài ra, khoảng tin cậy của ***R~t~*** trong thời đầu là quá lớn (khi ***SW là 1 tuần***) nên sẽ không đảm bảo tính tin cậy của ***R~t~***.
+
+**Ước tính Rt với sliding window là 2 tuần**
+
+```{r}
+library(patchwork)
+
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-06-08"), ymd("2024-08-23")))
+
+p_2w <- ggplot(df_rt_2w, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "darkorange") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt") +
+  theme_minimal() +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-06-08"), ymd("2024-08-23"))) +
+  scale_y_continuous(limits = c(0, 30))
+p_hist/p_2w
+```
+
+-   ***Rt \~ 8.99*** vào 08/06/2024, sau đó giảm dần khi dịch bắt đầu xảy ra (số ca mới xuất hiện liên tục) và cho đến ngày 23/08/2024 (khoảng tuần 34) thì ***R~t~ vẫn lớn hơn 1*** chứng tỏ dịch vẫn đang diễn ra và số ca bệnh có thể vẫn tiếp tục tăng.
+
+```{r}
+print(df_rt_2w[,c("dates", "rt")])
+```

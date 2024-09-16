@@ -1,0 +1,35 @@
+project:
+  title: "Measles"
+  type: book
+  output-dir: docs
+  
+execute:
+  freeze: auto
+
+book:
+  title: "Measles Analysis"
+  author: An Tran
+  date: "09/15/2024"
+  sidebar:
+    collapse-level: 1
+  chapters:
+    - index.qmd
+    - rt_2019.qmd
+    - rt_2024.qmd
+    - references.qmd
+
+bibliography: references.bib
+csl: apa.csl
+
+format:
+  html:
+    embed-resources: true
+    code-fold: true
+    theme: [cosmo, theme.scss]
+    code-overflow: wrap
+    fig-format: svg
+    df-print: paged
+    toc-depth: 5
+    toc-expand: 3
+    message: false
+    warning: false
