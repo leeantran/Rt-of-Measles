@@ -7,10 +7,10 @@ editor: visual
 
 **R~0~ - Basic reproduction number**
 
--   ***R~0~*** là số người trung bình mà một người nhiễm bệnh có thể lây nhiễm trong một quần thể hoàn toàn là dân số cảm nhiễm, tức là chưa có bất kỳ biện pháp phòng ngừa nào như tiêm vắc-xin, miễn dịch tự nhiên hay các biện pháp y tế công cộng. \
+-   ***R~0~*** là số người trung bình mà một người nhiễm bệnh có thể lây nhiễm trong một quần thể hoàn toàn là dân số cảm nhiễm, tức là chưa có bất kỳ biện pháp phòng ngừa nào như tiêm vaccine, miễn dịch tự nhiên hay các biện pháp y tế công cộng.\
     (***R~0~*** was called **R naught** is the average number of individuals infected by each infectious individual in a **fully susceptible population**)[@vegvari2022c]**.**
 
--   Nếu ***R~0~*** **\> 1**, dịch bệnh có thể lây lan và phát triển thành đại dịch. Nếu ***R~0~*** **\< 1**, dịch sẽ tự giảm và dừng lại.
+-   Nếu ***R~0~*** **\> 1**, dịch bệnh có thể lây lan và phát triển thành đại dịch. Nếu ***R~0~*** **\< 1**, dịch sẽ giảm và dừng lại.
 
 **R~t~ - Effective reproduction number at time**
 
@@ -21,7 +21,7 @@ editor: visual
 
 -   Bao gồm ***R^i^~t~*** và ***R^c^~t~*** (xem tài liệu sau để hiểu rõ hơn về 2 chỉ số này: <https://drthinhong.com/idm4b/rt.html>). Hiểu một cách đơn giản là ***R^i^~t~*** là ước tính theo thời gian thực và sử dụng dữ liệu trước thời điểm ***t***, còn ***R^c^~t~*** có xu hướng tiến cứu.
 
-Tóm lại, đối với các phân tích thời gian thực với mục tiêu đánh giá tác động của những thay đổi về chính sách, hành vi hoặc các yếu tố bên ngoài khác đối với quá trình lây truyền, ***R^i^~t~*** có thể ước tính chính xác hơn về mặt thời gian và phù hợp nhất.
+Tóm lại, đối với các phân tích thời gian thực với mục tiêu đánh giá tác động của những thay đổi về chính sách, hành vi hoặc các yếu tố bên ngoài khác đối với quá trình lây truyền, *R^i^~t~* có thể ước tính chính xác hơn về mặt thời gian và phù hợp nhất.
 
 :   ![](images/images_large_10.1177_09622802211037079-fig1.jpeg){width="3900"}
 
