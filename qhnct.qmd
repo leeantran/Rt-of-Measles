@@ -1,0 +1,13 @@
+# Những Quận/Huyện nguy cơ thấp
+
+| **Quận/Huyện** | **Số ca** | **Tỷ lệ %** |
+|----------------|-----------|-------------|
+| Tân phú        | 27        | 4.1%        |
+| Tân Bình       | 17        | 2.6%        |
+| Nhà Bè         | 17        | 2.6%        |
+| Quận 11        | 17        | 2.6%        |
+| Quận 7         | 16        | 2.4%        |
+| Quận 6         | 14        | 2.1%        |
+| Tổng           | **108**   | **16.3%**   |
+
+\*Từ 04/03/2024 đến 140/09/2024 có tổng cộng 661 ca Sởi xác định + Sởi nghi lâm sàng. Những Quận/Huyện nguy cơ cao chiếm **508 (76.8%)** ca bệnh, những quận còn lại có số ca bệnh thấp trong khoảng thời gian trên bao gồm: Quận 1, Quận 3, Quận 4, Quận 5, Quận 11, huyện Cần Giờ, Quận Gò Vấp, Bình Thạnh và Phú Nhuận.

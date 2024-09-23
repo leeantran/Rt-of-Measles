@@ -1,0 +1,191 @@
+# Quận 12
+
+```{r}
+library(readxl)
+library(EpiEstim)
+library(ggplot2)
+library(dplyr)
+library(janitor)
+library(tidyr)
+library(knitr)
+library(lubridate)
+
+df1 <- read_xlsx("C:/Users/Admin/Desktop/measles/data/data.xlsx", sheet = "data")
+df1 <- as.data.frame(df1)
+```
+
+```{r}
+df1 <- df1 %>% clean_names()
+
+df <- df1 %>% rename(dates = ngay_khoi_phat,
+                    ngaysinh = ngay_sinh,
+                    ngaynv = ngay_nhap_vien_kham,
+                    tiemchung = tinh_trang_tiem_chung,
+                    qh = qh_th,
+                    gioi = gioi_tinh)
+
+df$qh <- as.factor(df$qh)
+sum(is.na(df$dates))
+
+# Lấy ngày nhập viện thay cho ngày khởi phát của các ca missing
+df$dates[is.na(df$dates)] <- df$ngaynv[is.na(df$dates)]
+sum(is.na(df$dates))
+```
+
+```{r}
+df$cd <- ifelse(df$phan_loai_chan_doan == "Loại trừ sởi", NA, df$phan_loai_chan_doan)
+df <- df[,c("dates", "ngaysinh", "tiemchung", "cd", "qh")]
+
+# Loại những ca Sởi loại trừ
+df <- na.omit(df)
+```
+
+```{r}
+# Lọc dữ liệu từ 30/05/2024 - end và lọc ra quận 12
+df_q12 <- filter(df, qh == "Quận 12")
+```
+
+```{r}
+df_convert <- df_q12 %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+```
+
+```{r}
+df_plot <- df_complete %>% 
+  filter(I != 0)
+
+ggplot(df_plot, aes(x = dates, y = I)) +
+    geom_point()+
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd(min(df_complete$dates)), ymd(max(df_complete$dates))))
+```
+
+-   Dữ liệu của quận bắt đầu có số ca liên tục từ sau ngày **08/07/2024**, do đó sẽ bắt đầu ước tính ***R~t~*** từ ngày **08/07/2024.**
+
+```{r}
+df_filter <- filter(df_complete, dates >= "2024-07-08")
+```
+
+```{r}
+#| message: false
+#| warning: false
+
+t_start <- seq(2, nrow(df_filter)-13)
+t_end <- t_start + 13
+
+mod <- estimate_R(
+  incid = df_filter, 
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25,
+      t_start = t_start,
+      t_end = t_end
+    )
+  )
+)
+# Lấy dữ liệu ra để vẽ Rt
+df_rt <- mod$R
+df_rt$dates <- mod$dates[df_rt$t_end]
+df_rt$q1_rt <- df_rt$`Quantile.0.025(R)`
+df_rt$q3_rt <- df_rt$`Quantile.0.975(R)`
+df_rt$rt <- df_rt$`Mean(R)`
+```
+
+```{r}
+#| fig-height: 7
+#| fig-width: 14
+
+library(patchwork)
+
+# Biểu đồ đường cong dịch
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-07-08"), ymd("2024-09-14")))
+
+# Biểu đồ cho 1 tuần
+p_rt <- ggplot(df_rt, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3, size = 1) + 
+  geom_line(aes(y = rt), color = "darkorange", size = 1) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt", title = "22/07/2024 - 14/09/2024") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-07-08"), ymd("2024-09-14"))) +
+  scale_y_continuous(limits = c(0, 12))
+
+p_hist / p_rt
+```
+-   Do để tính ***R~t~*** chúng ta cần khoảng thời gian thế hệ (Serial interval) là 14 ngày, do đó nếu dữ liệu để tính bắt đầu từ **08/07/2024** thì ***R~t~*** sẽ được tính từ ngày **22/07/2024**. Giá trị ***R~t~*** vào ngày đầu tiên là **4,9 (KTC 95%: 1,01 - 11,9)**, sau 9 ngày thì **R~t~ giảm còn 2.3 (KTC 95%: 0.6 - 5.1)** và sau đó giảm dần gần tăng lên cao lại vào ngày **20/08** với ***R~t~ = 3.9***. Sau đó giảm mạnh xuống gần bằng 1.
+-   Để quan sát được rõ hơn diễn tiến dịch trong 1 tháng gần nhất, hình sẽ được phóng to từ ngày 12/08 đến 14/09:
+
+```{r}
+#| fig-height: 7
+#| fig-width: 14
+
+library(patchwork)
+library(scales)
+
+x_text_date = "2024-08-31"
+y_text = 8
+
+# Biểu đồ đường cong dịch
+p_hist <- ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-08-12"), ymd("2024-09-14")))
+
+# Biểu đồ Rt
+p_rt <- ggplot(df_rt, aes(x = dates)) +
+    geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.4) + 
+    geom_line(aes(y = rt), color = "darkorange", size = 1.3) +  
+    geom_hline(yintercept = 1, linetype = "dashed", color = "black", size = 0.8) + 
+    geom_segment(aes(x = as.Date("2024-08-31"), xend = as.Date("2024-08-31"), y = 4.5, yend = 0),
+                 linetype = "solid", color = "black", size = 1.2) +  
+    labs(x = "Day", y = "Rt") +
+    theme_minimal(base_size = 16) +  
+    theme(
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 12, color = "black"),
+        axis.text.y = element_text(size = 12, color = "black"),
+        plot.background = element_rect(fill = "#FAFAFA", color = NA),
+        panel.grid.major.x = element_line(color = "gray80", size = 0.5),
+        panel.grid.major.y = element_line(color = "gray80", size = 0.5)
+    ) +
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", 
+                 limits = c(ymd("2024-08-12"), ymd("2024-09-14")), expand = c(0.01, 0.01)) +
+    scale_y_continuous(limits = c(0, 4.5), breaks = seq(0, 5.5, by = 1)) +
+    annotate("text", x = ymd("2024-09-01"), y = 4.25, label = "Chiến dịch tiêm chủng", 
+             size = 5, hjust = -0.1, color = "black", fontface = "bold") +
+    annotate("text", x = ymd("2024-08-19"), y = 4.25, label = "Chưa có can thiệp", 
+             size = 5, hjust = -0.1, color = "black", fontface = "bold") +
+    annotate("rect", xmin = ymd("2024-08-31"), xmax = ymd("2024-09-14"), ymin = 4, ymax = 4.5,
+             alpha = 0.15, fill = "lightblue", color = "black") +
+    annotate("rect", xmin = ymd("2024-08-12"), xmax = ymd("2024-08-31"), ymin = 4, ymax = 4.5, 
+             alpha = 0.15, fill = "lightblue", color = "black")
+
+
+p_hist / p_rt
+```
+
+-   Từ 12/08/2024, R~t~ của quận 12 có xu hướng tăng trở lại, cao nhất là ngày 20/08 với R~t~ = 3.9, tuy nhiên sau đó R~t~ lại giảm và bắt đầu đi ngang từ 31/08/2024.
+
+-   Từ ngày 31/08/2024, bắt đầu triển khai "Chiến dịch tiêm chủng" trên cộng đồng và trên đối tượng trẻ từ 1 - 10 tuổi. Có thể thấy được sau khi thực hiện chiến dịch được 1 tuần thì số R~t~ bắt đầu giảm gần bằng 1. Tuy nhiên, R~t~ tăng trở lại vào ngày 10/09 (***R~t~ = 1.4***), và giảm còn **1.02** vào ngày 14/09/2024. Đến thời điểm hiện tại, chúng ta chưa thấy được rõ hiệu quả của chiến dịch tiêm chủng mang lại có thể do: (1) thời gian tạo kháng thể của vắc xin cần từ 2 - 4 tuần hoặc (2) chiến dịch tiêm chủng ở quận 12 có thể chưa tốt.
+
+```{r}
+library(knitr)
+kable(df_rt[,c("dates", "rt")])
+```

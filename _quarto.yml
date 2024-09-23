@@ -16,6 +16,22 @@ book:
     - index.qmd
     - rt_2019.qmd
     - rt_2024.qmd
+    - part: qhncc.qmd
+      chapters: 
+        - bc.qmd
+        - bta.qmd
+        - hm.qmd
+        - q12.qmd
+        - q8.qmd
+        - cc.qmd
+        - td.qmd
+    - part: qhnct.qmd
+      chapters: 
+        - tp.qmd
+        - tb.qmd
+        - nb.qmd
+        - q11.qmd
+        - q7.qmd
     - references.qmd
 
 bibliography: references.bib
@@ -24,7 +40,7 @@ csl: apa.csl
 format:
   html:
     embed-resources: true
-    code-fold: true
+    echo: false
     theme: [cosmo, theme.scss]
     code-overflow: wrap
     fig-format: svg

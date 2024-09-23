@@ -1,11 +1,5 @@
 # Ước tính R~t~ của Sởi năm 2024
 
-## Serial interval
-
--   Dữ liệu hiện có không thể tính được ***Serial interval*** theo định nghĩa. Do đó, sẽ dựa vào y văn và chọn ***Serial interval*** có trung bình là **14.5 ngày** và độ lệch chuẩn là **3.25 ngày** [@worden2020e].
-
-## Ước tính R~t~
-
 ```{r}
 library(readxl)
 library(EpiEstim)
@@ -29,6 +23,7 @@ df <- df1 %>% rename(dates = ngay_khoi_phat,
                     ngaysinh = ngay_sinh,
                     ngaynv = ngay_nhap_vien_kham,
                     tiemchung = tinh_trang_tiem_chung,
+                    qh = qh_th,
                     gioi = gioi_tinh)
 
 sum(is.na(df$dates))
@@ -42,7 +37,7 @@ sum(is.na(df$dates))
 
 ```{r}
 df$cd <- ifelse(df$phan_loai_chan_doan == "Loại trừ sởi", NA, df$phan_loai_chan_doan)
-df <- df[,c("dates", "ngaysinh", "tiemchung", "cd")]
+df <- df[,c("dates", "ngaysinh", "tiemchung", "cd", "qh")]
 
 # Loại những ca Sởi loại trừ
 df <- na.omit(df)
@@ -101,7 +96,7 @@ p_raw <- ggplot(df_rt_raw, aes(x = dates)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-03-04"), ymd("2024-09-14"))) +
-  scale_y_continuous(limits = c(0, 20))
+  scale_y_continuous(limits = c(0, 45))
 
 p_hist_raw/p_raw
 ```
@@ -134,42 +129,6 @@ df_rt_1w$q1_rt <- df_rt_1w$`Quantile.0.025(R)`
 df_rt_1w$q3_rt <- df_rt_1w$`Quantile.0.975(R)`
 df_rt_1w$rt <- df_rt_1w$`Mean(R)`
 ```
-
-```{r}
-#| fig-height: 7
-#| fig-width: 14
-
-library(patchwork)
-
-# Biểu đồ đường cong dịch
-p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
-    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
-    labs(x = "Day", y = "Incidence") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
-    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-30"), ymd("2024-09-14")))
-
-# Biểu đồ cho 1 tuần
-p_1w <- ggplot(df_rt_1w, aes(x = dates)) +
-  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.3) + 
-  geom_line(aes(y = rt), color = "darkorange") +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
-  labs(x = "Day", y = "Rt", title = "30/05/2024 - 14/09/2024") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
-  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-30"), ymd("2024-09-14"))) +
-  scale_y_continuous(limits = c(0, 20))
-```
-
-```{r}
-#| fig-height: 7
-#| fig-width: 14
-
-library(patchwork)
-
-(p_hist_raw + p_hist) / (p_raw + p_1w)
-```
-
 -   Trong lệnh `esimate_R`, chúng ta có thể tùy chọn ***Sliding window (SW)*** khác nhau để thể hiện kết quả ước tính ***R~t~***. ***Sliding window*** là khoảng thời gian chúng ta dùng để xác định ***R~t~***, ví dụ nếu chúng ta chọn ***SW = 7*** thì giá trị ***R~t~*** sẽ được tính bằng trung bình của 7 ngày. Vậy chúng ta nên chọn \***SW** bằng bao nhiêu? Chúng ta vẽ thử 4 trường hợp của ***SW*** lần lượt là: mỗi ngày, mỗi tuần, mỗi 2 tuần và mỗi tháng để lựa chọn.
 
 ```{r}
@@ -351,7 +310,64 @@ p_2w <- ggplot(df_rt_2w, aes(x = dates)) +
 p_hist/p_2w
 ```
 
--   *Dữ liệu để ước tính **R~t~** là từ 30/05/2024, nên R~t~ sẽ được tính từ ngày 13/06/2024 (Do Serial interval có trung bình là 14 ngày). **R~t~ \~ 7.07*** vào 08/06/2024, sau đó giảm dần khi dịch bắt đầu xảy ra (số ca mới xuất hiện liên tục) và cho đến ngày 14/09/2024 (khoảng tuần 36) thì ***R~t~ vẫn lớn hơn 1*** chứng tỏ dịch vẫn đang diễn ra và số ca bệnh có thể vẫn tiếp tục tăng.
+-   *Dữ liệu để ước tính **R~t~** là từ 30/05/2024, nên R~t~ sẽ được tính từ ngày 13/06/2024 (Do Serial interval có trung bình là 14 ngày). **R~t~ \~ 7.07*** vào 13/06/2024, sau đó giảm dần khi dịch bắt đầu xảy ra (số ca mới xuất hiện liên tục) và cho đến ngày 14/09/2024 (khoảng tuần 36) thì ***R~t~ vẫn lớn hơn 1*** chứng tỏ dịch vẫn đang diễn ra và số ca bệnh có thể vẫn tiếp tục tăng.
+
+- Để quan sát được rõ hơn diễn tiến dịch trong 2 tháng gần nhất, hình sẽ được phóng to từ ngày 12/07 đến 14/09:
+
+```{r}
+#| fig-height: 7
+#| fig-width: 14
+
+library(patchwork)
+library(scales)
+
+x_text_date = "2024-08-31"
+y_text = 8
+
+# Biểu đồ đường cong dịch
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "lightgrey", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-07-12"), ymd("2024-09-14")))
+
+# Biểu đồ Rt
+p_rt <- ggplot(df_rt_2w, aes(x = dates)) +
+    geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "lightcoral", alpha = 0.4) + 
+    geom_line(aes(y = rt), color = "darkorange", size = 1.3) +  
+    geom_hline(yintercept = 1, linetype = "dashed", color = "black", size = 0.8) + 
+  geom_segment(aes(x = as.Date("2024-08-31"), xend = as.Date("2024-08-31"), y = 4, yend = 0),
+                 linetype = "solid", color = "black", size = 1.2) +  
+    labs(x = "Day", y = "Rt") +
+    theme_minimal(base_size = 16) +  
+    theme(
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 12, color = "black"),
+        axis.text.y = element_text(size = 12, color = "black"),
+        plot.background = element_rect(fill = "#FAFAFA", color = NA),
+        panel.grid.major.x = element_line(color = "gray80", size = 0.5),
+        panel.grid.major.y = element_line(color = "gray80", size = 0.5)
+    ) +
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week", 
+                 limits = c(ymd("2024-07-12"), ymd("2024-09-14")), expand = c(0.01, 0.01)) +
+    scale_y_continuous(limits = c(0, 4), breaks = seq(0, 4, by = 1)) +
+    annotate("text", x = ymd("2024-09-01"), y = 3.5, label = "Chiến dịch tiêm chủng", 
+             size = 5, hjust = -0.1, color = "black", fontface = "bold") +
+    annotate("text", x = ymd("2024-07-30"), y = 3.5, label = "Chưa có can thiệp", 
+             size = 5, hjust = -0.1, color = "black", fontface = "bold") +
+    annotate("rect", xmin = ymd("2024-08-31"), xmax = ymd("2024-09-14"), ymin = 3, ymax = 4,
+             alpha = 0.15, fill = "lightblue", color = "black") +
+    annotate("rect", xmin = ymd("2024-07-12"), xmax = ymd("2024-08-31"), ymin = 3, ymax = 4, 
+             alpha = 0.15, fill = "lightblue", color = "black")
+
+
+p_hist / p_rt
+```
+- Từ 18/07/2024, ***R~t~*** có xu hướng tăng trở lại và dao động từ **1.08 - 1.98**. Giá trị ***R~t~*** bắt đầu đi ngang từ 24/08/2024 và đến 31/08/2024 là **1.26**.
+
+- Từ ngày 31/08/2024, bắt đầu triển khai "Chiến dịch tiêm chủng" trên cộng đồng và trên đối tượng trẻ từ 1 - 10 tuổi. Có thể thấy được sau khi thực hiện chiến dịch được 1 tuần thì số R~t~ bắt đầu đi ngang trong tuần đầu tiên và giảm trong tuần thứ 2 sau chiến dịch (***R~t~ = 1.06*** ngày 11/09 và đến 14/09 thì ***R~t~ = 1.04*** chứng tỏ dịch vẫn đang diễn ra và số ca bệnh có thể vẫn tiếp tục tăng.
+
+- Tuy nhiên, thời gian tạo miễn dịch từ vắc xin là 2 - 4 tuần, do đó chúng ta cần dữ liệu từ 14/09 trở về sau để đánh giá thêm có phải là hiệu quả của chiến dịch hay không? Nhưng đến thời điểm hiện tại, ngoài thực hiện chính sách can thiệp từ ngày 31/08/2024 thì trước đó Thành phố cũng chủ động truyền thông về dự phòng bệnh Sởi, do đó có thể R~t~ giảm trong giai đoạn từ 06/09/2024 có thể do kết hợp 2 biện pháp này.
 
 ```{r}
 library(knitr)

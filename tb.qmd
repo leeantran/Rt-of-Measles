@@ -1,0 +1,112 @@
+# Tân Bình
+
+```{r}
+library(readxl)
+df <- read_xlsx("C:/Users/Admin/Desktop/measles/data/data.xlsx", sheet = "data")
+
+library(janitor)
+library(dplyr)
+df <- clean_names(df)
+head(df)
+df <- filter(df, phan_loai_chan_doan != "Loại trừ sởi")
+df$ngay_khoi_phat <- as.Date(df$ngay_khoi_phat)
+df$ngay_nhap_vien_kham <- as.Date(df$ngay_nhap_vien_kham)
+df$dates <- as.Date(ifelse(is.na(df$ngay_khoi_phat), df$ngay_nhap_vien_kham,df$ngay_khoi_phat))
+```
+
+**Filter data Tan binh**
+
+```{r}
+library(dplyr)
+tb <- filter(df, qh_th == "Tân Bình")  
+tbconvert <- group_by(tb, dates)  
+df_tb <- summarise(tbconvert, I=n())
+```
+
+**Plot data Tan binh**
+
+```{r}
+library(ggplot2)
+library(lubridate)
+
+ggplot(df_tb,aes(x=dates,y=I)) +
+  geom_point() +
+  labs(x="dates", y="cases") + 
+  theme_light() +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week",       limits = c(ymd("2024-05-30"),ymd("2024-09-14")))
+
+ggplot(df_tb,aes(x=dates,y=I)) +
+  geom_histogram(stat = "identity", binwidth = 1, width=1, fill ="lightpink", color= "black") +
+  labs(x="Day", y="Incidence")+
+  theme_minimal() +
+  theme (axis.text.x = element_text(angle = 90)) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-05-30"),ymd("2024-09-14")))
+```
+
+**Filter data in** **the time period with consecutive cases**
+
+```{r}
+df_tb <- filter(df_tb, dates >= "2024-07-15")
+
+# complete data theo day
+library(tidyr)
+df_tb <- complete(df_tb, dates = seq(min(dates), max(dates),by="day"))
+df_tb <- replace_na(df_tb,list( I=0))
+df_tb$dates <- as.Date(df_tb$dates)
+```
+
+**Set sliding window**
+
+```{r}
+t_start <- seq(2, length(df_tb$I) - 13)
+t_end <- t_start + 13
+```
+
+**Estimates R~t~** **Tan Binh**
+
+```{r}
+library(EpiEstim)
+mod_df_tb <- estimate_R(
+  incid= df_tb,
+  method= "parametric_si",
+  config = make_config(list(mean_si=14.5, std_si= 3.2, t_start = t_start,   t_end = t_end)
+    )
+)
+
+plot (mod_df_tb)
+```
+
+**Plot only R and Incidence**
+
+```{r}
+rt_tb <- mod_df_tb$R
+
+# Lấy dữ liệu ra để vẽ Rt
+rt_tb$dates <- mod_df_tb$dates[rt_tb$t_end]
+rt_tb$q1 <-rt_tb$`Quantile.0.025(R)`
+rt_tb$q3 <- rt_tb$`Quantile.0.975(R)`
+rt_tb$rt <- rt_tb$`Mean(R)`
+```
+
+```{r}
+library(patchwork)
+p1tb <- ggplot(df_tb, aes(x= dates, y= I)) +
+  geom_histogram(stat = "identity", binwidth = 1, width=1, fill ="lightpink", color= "black") +
+  labs(x="Day", y="Incidence")+
+  theme_minimal() + 
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-07-15"),ymd("2024-09-14")))
+
+p2tb <- ggplot(rt_tb,aes(x=dates)) +
+  geom_ribbon(aes(ymin=q1,ymax=q3),fill="lightpink",alpha=0.7) +
+  geom_line(aes(y= rt), color ="hotpink") +
+  geom_hline(yintercept=1, linetype = "dashed", color ="black", size = 1) +
+  labs(x="Day", y="Rt") +
+  theme_minimal() + 
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(ymd("2024-07-15"),ymd("2024-09-14"))) +
+  scale_y_continuous(limits = c(0,9))+
+  annotate("text", x = ymd("2024-08-27"), y = 9, label = "Chiến dịch tiêm MR", size = 5, hjust = 0.2, color = "red" ) +
+  annotate("text", x = ymd("2024-09-01"), y = 8, label = "31/08/2024", size = 5, hjust = 0.4, color = "red") +
+  annotate("segment", x = ymd("2024-08-31"), xend = ymd("2024-08-31"), y = 8, yend = 4, arrow = arrow(type = "closed", length = unit(0.2, "cm")), color = "hotpink")
+
+p1tb/p2tb
+```
