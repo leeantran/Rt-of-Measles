@@ -1,0 +1,1480 @@
+{
+    "sources": [
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        },
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020a",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        },
+        {
+            "DOI": "10.1177/09622802211037079",
+            "URL": "https://doi.org/10.1177/09622802211037079",
+            "author": [
+                {
+                    "family": "Vegvari",
+                    "given": "Carolin"
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Ball",
+                    "given": "Frank"
+                },
+                {
+                    "family": "Brooks-Pollock",
+                    "given": "Ellen"
+                },
+                {
+                    "family": "Challen",
+                    "given": "Robert"
+                },
+                {
+                    "family": "Collyer",
+                    "given": "Benjamin S"
+                },
+                {
+                    "family": "Dangerfield",
+                    "given": "Ciara"
+                },
+                {
+                    "family": "Gog",
+                    "given": "Julia R"
+                },
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M"
+                },
+                {
+                    "family": "Heffernan",
+                    "given": "Jane M"
+                },
+                {
+                    "family": "Hollingsworth",
+                    "given": "T Déirdre"
+                },
+                {
+                    "family": "Isham",
+                    "given": "Valerie"
+                },
+                {
+                    "family": "Kenah",
+                    "given": "Eben"
+                },
+                {
+                    "family": "Mollison",
+                    "given": "Denis"
+                },
+                {
+                    "family": "Panovska-Griffiths",
+                    "given": "Jasmina"
+                },
+                {
+                    "family": "Pellis",
+                    "given": "Lorenzo"
+                },
+                {
+                    "family": "Roberts",
+                    "given": "Michael G"
+                },
+                {
+                    "family": "Scalia Tomba",
+                    "given": "Gianpaolo"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N"
+                },
+                {
+                    "family": "Trapman",
+                    "given": "Pieter"
+                }
+            ],
+            "container-title": "Statistical Methods in Medical Research",
+            "id": "vegvari2022",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        9,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: SAGE Publications Ltd STM",
+            "page": "1675-1685",
+            "title": "Commentary on the use of the reproduction number R during the COVID-19 pandemic",
+            "type": "article-journal",
+            "volume": "31"
+        },
+        {
+            "URL": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008409",
+            "id": "practica",
+            "title": "Practical considerations for measuring the effective reproductive number, rt | PLOS computational biology",
+            "type": ""
+        },
+        {
+            "URL": "https://drthinhong.com/idm4b/rt.html",
+            "author": [
+                {
+                    "family": "Thinh Ong"
+                }
+            ],
+            "id": "thinhong",
+            "language": "en",
+            "title": "Infectious disease modelling for babies",
+            "type": ""
+        },
+        {
+            "DOI": "10.1177/09622802211037079",
+            "URL": "https://doi.org/10.1177/09622802211037079",
+            "author": [
+                {
+                    "family": "Vegvari",
+                    "given": "Carolin"
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Ball",
+                    "given": "Frank"
+                },
+                {
+                    "family": "Brooks-Pollock",
+                    "given": "Ellen"
+                },
+                {
+                    "family": "Challen",
+                    "given": "Robert"
+                },
+                {
+                    "family": "Collyer",
+                    "given": "Benjamin S"
+                },
+                {
+                    "family": "Dangerfield",
+                    "given": "Ciara"
+                },
+                {
+                    "family": "Gog",
+                    "given": "Julia R"
+                },
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M"
+                },
+                {
+                    "family": "Heffernan",
+                    "given": "Jane M"
+                },
+                {
+                    "family": "Hollingsworth",
+                    "given": "T Déirdre"
+                },
+                {
+                    "family": "Isham",
+                    "given": "Valerie"
+                },
+                {
+                    "family": "Kenah",
+                    "given": "Eben"
+                },
+                {
+                    "family": "Mollison",
+                    "given": "Denis"
+                },
+                {
+                    "family": "Panovska-Griffiths",
+                    "given": "Jasmina"
+                },
+                {
+                    "family": "Pellis",
+                    "given": "Lorenzo"
+                },
+                {
+                    "family": "Roberts",
+                    "given": "Michael G"
+                },
+                {
+                    "family": "Scalia Tomba",
+                    "given": "Gianpaolo"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N"
+                },
+                {
+                    "family": "Trapman",
+                    "given": "Pieter"
+                }
+            ],
+            "container-title": "Statistical Methods in Medical Research",
+            "id": "vegvari2022a",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        9,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: SAGE Publications Ltd STM",
+            "page": "1675-1685",
+            "title": "Commentary on the use of the reproduction number R during the COVID-19 pandemic",
+            "type": "article-journal",
+            "volume": "31"
+        },
+        {
+            "URL": "https://academic.oup.com/aje/article/178/9/1505/89262?login=false",
+            "id": "newfram",
+            "title": "New framework and software to estimate time-varying reproduction numbers during epidemics | american journal of epidemiology | oxford academic",
+            "type": ""
+        },
+        {
+            "DOI": "10.1371/journal.pcbi.1008409",
+            "URL": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008409",
+            "author": [
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M."
+                },
+                {
+                    "family": "McGough",
+                    "given": "Lauren"
+                },
+                {
+                    "family": "Baskerville",
+                    "given": "Edward B."
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Joshi",
+                    "given": "Keya"
+                },
+                {
+                    "family": "Tedijanto",
+                    "given": "Christine"
+                },
+                {
+                    "family": "Kahn",
+                    "given": "Rebecca"
+                },
+                {
+                    "family": "Niehus",
+                    "given": "Rene"
+                },
+                {
+                    "family": "Hay",
+                    "given": "James A."
+                },
+                {
+                    "family": "Salazar",
+                    "given": "Pablo M. De"
+                },
+                {
+                    "family": "Hellewell",
+                    "given": "Joel"
+                },
+                {
+                    "family": "Meakin",
+                    "given": "Sophie"
+                },
+                {
+                    "family": "Munday",
+                    "given": "James D."
+                },
+                {
+                    "family": "Bosse",
+                    "given": "Nikos I."
+                },
+                {
+                    "family": "Sherrat",
+                    "given": "Katharine"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N."
+                },
+                {
+                    "family": "White",
+                    "given": "Laura F."
+                },
+                {
+                    "family": "Huisman",
+                    "given": "Jana S."
+                },
+                {
+                    "family": "Scire",
+                    "given": "Jérémie"
+                },
+                {
+                    "family": "Bonhoeffer",
+                    "given": "Sebastian"
+                },
+                {
+                    "family": "Stadler",
+                    "given": "Tanja"
+                },
+                {
+                    "family": "Wallinga",
+                    "given": "Jacco"
+                },
+                {
+                    "family": "Funk",
+                    "given": "Sebastian"
+                },
+                {
+                    "family": "Lipsitch",
+                    "given": "Marc"
+                },
+                {
+                    "family": "Cobey",
+                    "given": "Sarah"
+                }
+            ],
+            "container-title": "PLOS Computational Biology",
+            "id": "gostic2020",
+            "issue": "12",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        10
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: Public Library of Science",
+            "page": "e1008409",
+            "title": "Practical considerations for measuring the effective reproductive number, Rt",
+            "type": "article-journal",
+            "volume": "16"
+        },
+        {
+            "DOI": "10.1093/aje/kwt133",
+            "URL": "https://doi.org/10.1093/aje/kwt133",
+            "author": [
+                {
+                    "family": "Cori",
+                    "given": "Anne"
+                },
+                {
+                    "family": "Ferguson",
+                    "given": "Neil M."
+                },
+                {
+                    "family": "Fraser",
+                    "given": "Christophe"
+                },
+                {
+                    "family": "Cauchemez",
+                    "given": "Simon"
+                }
+            ],
+            "container-title": "American Journal of Epidemiology",
+            "id": "cori2013",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2013,
+                        11,
+                        1
+                    ]
+                ]
+            },
+            "page": "1505-1512",
+            "title": "A new framework and software to estimate time-varying reproduction numbers during epidemics",
+            "type": "article-journal",
+            "volume": "178"
+        },
+        {
+            "DOI": "10.7554/eLife.79134",
+            "URL": "https://doi.org/10.7554/eLife.79134",
+            "author": [
+                {
+                    "family": "Sender",
+                    "given": "Ron"
+                },
+                {
+                    "family": "Bar-On",
+                    "given": "Yinon"
+                },
+                {
+                    "family": "Park",
+                    "given": "Sang Woo"
+                },
+                {
+                    "family": "Noor",
+                    "given": "Elad"
+                },
+                {
+                    "family": "Dushoff",
+                    "given": "Jonathan"
+                },
+                {
+                    "family": "Milo",
+                    "given": "Ron"
+                }
+            ],
+            "container-title": "eLife",
+            "editor": [
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn"
+                },
+                {
+                    "family": "Walczak",
+                    "given": "Aleksandra M"
+                },
+                {
+                    "family": "Hay",
+                    "given": "James A"
+                }
+            ],
+            "id": "sender2022",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        8,
+                        1
+                    ]
+                ]
+            },
+            "note": "Publisher: eLife Sciences Publications, Ltd",
+            "page": "e79134",
+            "title": "The unmitigated profile of COVID-19 infectiousness",
+            "type": "article-journal",
+            "volume": "11"
+        },
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020b",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        },
+        {
+            "DOI": "10.1093/aje/kwt133",
+            "URL": "https://doi.org/10.1093/aje/kwt133",
+            "author": [
+                {
+                    "family": "Cori",
+                    "given": "Anne"
+                },
+                {
+                    "family": "Ferguson",
+                    "given": "Neil M."
+                },
+                {
+                    "family": "Fraser",
+                    "given": "Christophe"
+                },
+                {
+                    "family": "Cauchemez",
+                    "given": "Simon"
+                }
+            ],
+            "container-title": "American Journal of Epidemiology",
+            "id": "cori2013a",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2013,
+                        11,
+                        1
+                    ]
+                ]
+            },
+            "page": "1505-1512",
+            "title": "A new framework and software to estimate time-varying reproduction numbers during epidemics",
+            "type": "article-journal",
+            "volume": "178"
+        },
+        {
+            "DOI": "10.1371/journal.pcbi.1008409",
+            "URL": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008409",
+            "author": [
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M."
+                },
+                {
+                    "family": "McGough",
+                    "given": "Lauren"
+                },
+                {
+                    "family": "Baskerville",
+                    "given": "Edward B."
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Joshi",
+                    "given": "Keya"
+                },
+                {
+                    "family": "Tedijanto",
+                    "given": "Christine"
+                },
+                {
+                    "family": "Kahn",
+                    "given": "Rebecca"
+                },
+                {
+                    "family": "Niehus",
+                    "given": "Rene"
+                },
+                {
+                    "family": "Hay",
+                    "given": "James A."
+                },
+                {
+                    "family": "Salazar",
+                    "given": "Pablo M. De"
+                },
+                {
+                    "family": "Hellewell",
+                    "given": "Joel"
+                },
+                {
+                    "family": "Meakin",
+                    "given": "Sophie"
+                },
+                {
+                    "family": "Munday",
+                    "given": "James D."
+                },
+                {
+                    "family": "Bosse",
+                    "given": "Nikos I."
+                },
+                {
+                    "family": "Sherrat",
+                    "given": "Katharine"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N."
+                },
+                {
+                    "family": "White",
+                    "given": "Laura F."
+                },
+                {
+                    "family": "Huisman",
+                    "given": "Jana S."
+                },
+                {
+                    "family": "Scire",
+                    "given": "Jérémie"
+                },
+                {
+                    "family": "Bonhoeffer",
+                    "given": "Sebastian"
+                },
+                {
+                    "family": "Stadler",
+                    "given": "Tanja"
+                },
+                {
+                    "family": "Wallinga",
+                    "given": "Jacco"
+                },
+                {
+                    "family": "Funk",
+                    "given": "Sebastian"
+                },
+                {
+                    "family": "Lipsitch",
+                    "given": "Marc"
+                },
+                {
+                    "family": "Cobey",
+                    "given": "Sarah"
+                }
+            ],
+            "container-title": "PLOS Computational Biology",
+            "id": "gostic2020a",
+            "issue": "12",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        10
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: Public Library of Science",
+            "page": "e1008409",
+            "title": "Practical considerations for measuring the effective reproductive number, Rt",
+            "type": "article-journal",
+            "volume": "16"
+        },
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020c",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        },
+        {
+            "DOI": "10.7554/eLife.79134",
+            "URL": "https://doi.org/10.7554/eLife.79134",
+            "author": [
+                {
+                    "family": "Sender",
+                    "given": "Ron"
+                },
+                {
+                    "family": "Bar-On",
+                    "given": "Yinon"
+                },
+                {
+                    "family": "Park",
+                    "given": "Sang Woo"
+                },
+                {
+                    "family": "Noor",
+                    "given": "Elad"
+                },
+                {
+                    "family": "Dushoff",
+                    "given": "Jonathan"
+                },
+                {
+                    "family": "Milo",
+                    "given": "Ron"
+                }
+            ],
+            "container-title": "eLife",
+            "editor": [
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn"
+                },
+                {
+                    "family": "Walczak",
+                    "given": "Aleksandra M"
+                },
+                {
+                    "family": "Hay",
+                    "given": "James A"
+                }
+            ],
+            "id": "sender2022a",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        8,
+                        1
+                    ]
+                ]
+            },
+            "note": "Publisher: eLife Sciences Publications, Ltd",
+            "page": "e79134",
+            "title": "The unmitigated profile of COVID-19 infectiousness",
+            "type": "article-journal",
+            "volume": "11"
+        },
+        {
+            "DOI": "10.7554/eLife.79134",
+            "URL": "https://doi.org/10.7554/eLife.79134",
+            "author": [
+                {
+                    "family": "Sender",
+                    "given": "Ron"
+                },
+                {
+                    "family": "Bar-On",
+                    "given": "Yinon"
+                },
+                {
+                    "family": "Park",
+                    "given": "Sang Woo"
+                },
+                {
+                    "family": "Noor",
+                    "given": "Elad"
+                },
+                {
+                    "family": "Dushoff",
+                    "given": "Jonathan"
+                },
+                {
+                    "family": "Milo",
+                    "given": "Ron"
+                }
+            ],
+            "container-title": "eLife",
+            "editor": [
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn"
+                },
+                {
+                    "family": "Walczak",
+                    "given": "Aleksandra M"
+                },
+                {
+                    "family": "Hay",
+                    "given": "James A"
+                }
+            ],
+            "id": "sender2022b",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        8,
+                        1
+                    ]
+                ]
+            },
+            "note": "Publisher: eLife Sciences Publications, Ltd",
+            "page": "e79134",
+            "title": "The unmitigated profile of COVID-19 infectiousness",
+            "type": "article-journal",
+            "volume": "11"
+        },
+        {
+            "DOI": "10.1093/aje/kwt133",
+            "URL": "https://doi.org/10.1093/aje/kwt133",
+            "author": [
+                {
+                    "family": "Cori",
+                    "given": "Anne"
+                },
+                {
+                    "family": "Ferguson",
+                    "given": "Neil M."
+                },
+                {
+                    "family": "Fraser",
+                    "given": "Christophe"
+                },
+                {
+                    "family": "Cauchemez",
+                    "given": "Simon"
+                }
+            ],
+            "container-title": "American Journal of Epidemiology",
+            "id": "cori2013b",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2013,
+                        11,
+                        1
+                    ]
+                ]
+            },
+            "page": "1505-1512",
+            "title": "A new framework and software to estimate time-varying reproduction numbers during epidemics",
+            "type": "article-journal",
+            "volume": "178"
+        },
+        {
+            "DOI": "10.1177/09622802211037079",
+            "URL": "https://doi.org/10.1177/09622802211037079",
+            "author": [
+                {
+                    "family": "Vegvari",
+                    "given": "Carolin"
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Ball",
+                    "given": "Frank"
+                },
+                {
+                    "family": "Brooks-Pollock",
+                    "given": "Ellen"
+                },
+                {
+                    "family": "Challen",
+                    "given": "Robert"
+                },
+                {
+                    "family": "Collyer",
+                    "given": "Benjamin S"
+                },
+                {
+                    "family": "Dangerfield",
+                    "given": "Ciara"
+                },
+                {
+                    "family": "Gog",
+                    "given": "Julia R"
+                },
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M"
+                },
+                {
+                    "family": "Heffernan",
+                    "given": "Jane M"
+                },
+                {
+                    "family": "Hollingsworth",
+                    "given": "T Déirdre"
+                },
+                {
+                    "family": "Isham",
+                    "given": "Valerie"
+                },
+                {
+                    "family": "Kenah",
+                    "given": "Eben"
+                },
+                {
+                    "family": "Mollison",
+                    "given": "Denis"
+                },
+                {
+                    "family": "Panovska-Griffiths",
+                    "given": "Jasmina"
+                },
+                {
+                    "family": "Pellis",
+                    "given": "Lorenzo"
+                },
+                {
+                    "family": "Roberts",
+                    "given": "Michael G"
+                },
+                {
+                    "family": "Scalia Tomba",
+                    "given": "Gianpaolo"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N"
+                },
+                {
+                    "family": "Trapman",
+                    "given": "Pieter"
+                }
+            ],
+            "container-title": "Statistical Methods in Medical Research",
+            "id": "vegvari2022b",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        9,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: SAGE Publications Ltd STM",
+            "page": "1675-1685",
+            "title": "Commentary on the use of the reproduction number R during the COVID-19 pandemic",
+            "type": "article-journal",
+            "volume": "31"
+        },
+        {
+            "URL": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008409",
+            "id": "practicaa",
+            "title": "Practical considerations for measuring the effective reproductive number, rt | PLOS computational biology",
+            "type": ""
+        },
+        {
+            "DOI": "10.1177/09622802211037079",
+            "URL": "https://doi.org/10.1177/09622802211037079",
+            "author": [
+                {
+                    "family": "Vegvari",
+                    "given": "Carolin"
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Ball",
+                    "given": "Frank"
+                },
+                {
+                    "family": "Brooks-Pollock",
+                    "given": "Ellen"
+                },
+                {
+                    "family": "Challen",
+                    "given": "Robert"
+                },
+                {
+                    "family": "Collyer",
+                    "given": "Benjamin S"
+                },
+                {
+                    "family": "Dangerfield",
+                    "given": "Ciara"
+                },
+                {
+                    "family": "Gog",
+                    "given": "Julia R"
+                },
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M"
+                },
+                {
+                    "family": "Heffernan",
+                    "given": "Jane M"
+                },
+                {
+                    "family": "Hollingsworth",
+                    "given": "T Déirdre"
+                },
+                {
+                    "family": "Isham",
+                    "given": "Valerie"
+                },
+                {
+                    "family": "Kenah",
+                    "given": "Eben"
+                },
+                {
+                    "family": "Mollison",
+                    "given": "Denis"
+                },
+                {
+                    "family": "Panovska-Griffiths",
+                    "given": "Jasmina"
+                },
+                {
+                    "family": "Pellis",
+                    "given": "Lorenzo"
+                },
+                {
+                    "family": "Roberts",
+                    "given": "Michael G"
+                },
+                {
+                    "family": "Scalia Tomba",
+                    "given": "Gianpaolo"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N"
+                },
+                {
+                    "family": "Trapman",
+                    "given": "Pieter"
+                }
+            ],
+            "container-title": "Statistical Methods in Medical Research",
+            "id": "vegvari2022c",
+            "issue": "9",
+            "issued": {
+                "date-parts": [
+                    [
+                        2022,
+                        9,
+                        1
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: SAGE Publications Ltd STM",
+            "page": "1675-1685",
+            "title": "Commentary on the use of the reproduction number R during the COVID-19 pandemic",
+            "type": "article-journal",
+            "volume": "31"
+        },
+        {
+            "DOI": "10.1371/journal.pcbi.1008409",
+            "URL": "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008409",
+            "author": [
+                {
+                    "family": "Gostic",
+                    "given": "Katelyn M."
+                },
+                {
+                    "family": "McGough",
+                    "given": "Lauren"
+                },
+                {
+                    "family": "Baskerville",
+                    "given": "Edward B."
+                },
+                {
+                    "family": "Abbott",
+                    "given": "Sam"
+                },
+                {
+                    "family": "Joshi",
+                    "given": "Keya"
+                },
+                {
+                    "family": "Tedijanto",
+                    "given": "Christine"
+                },
+                {
+                    "family": "Kahn",
+                    "given": "Rebecca"
+                },
+                {
+                    "family": "Niehus",
+                    "given": "Rene"
+                },
+                {
+                    "family": "Hay",
+                    "given": "James A."
+                },
+                {
+                    "family": "Salazar",
+                    "given": "Pablo M. De"
+                },
+                {
+                    "family": "Hellewell",
+                    "given": "Joel"
+                },
+                {
+                    "family": "Meakin",
+                    "given": "Sophie"
+                },
+                {
+                    "family": "Munday",
+                    "given": "James D."
+                },
+                {
+                    "family": "Bosse",
+                    "given": "Nikos I."
+                },
+                {
+                    "family": "Sherrat",
+                    "given": "Katharine"
+                },
+                {
+                    "family": "Thompson",
+                    "given": "Robin N."
+                },
+                {
+                    "family": "White",
+                    "given": "Laura F."
+                },
+                {
+                    "family": "Huisman",
+                    "given": "Jana S."
+                },
+                {
+                    "family": "Scire",
+                    "given": "Jérémie"
+                },
+                {
+                    "family": "Bonhoeffer",
+                    "given": "Sebastian"
+                },
+                {
+                    "family": "Stadler",
+                    "given": "Tanja"
+                },
+                {
+                    "family": "Wallinga",
+                    "given": "Jacco"
+                },
+                {
+                    "family": "Funk",
+                    "given": "Sebastian"
+                },
+                {
+                    "family": "Lipsitch",
+                    "given": "Marc"
+                },
+                {
+                    "family": "Cobey",
+                    "given": "Sarah"
+                }
+            ],
+            "container-title": "PLOS Computational Biology",
+            "id": "gostic2020b",
+            "issue": "12",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        10
+                    ]
+                ]
+            },
+            "language": "en",
+            "note": "Publisher: Public Library of Science",
+            "page": "e1008409",
+            "title": "Practical considerations for measuring the effective reproductive number, Rt",
+            "type": "article-journal",
+            "volume": "16"
+        },
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020d",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        },
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020e",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        },
+        {
+            "URL": "https://www.cdc.gov/cfa-modeling-and-forecasting/rt-estimates/index.html",
+            "author": [
+                {
+                    "family": "CDC"
+                }
+            ],
+            "id": "cdc2024",
+            "issued": {
+                "date-parts": [
+                    [
+                        2024,
+                        9,
+                        20
+                    ]
+                ]
+            },
+            "language": "en-us",
+            "title": "Current epidemic growth status (based on rt) for states",
+            "type": ""
+        },
+        {
+            "DOI": "10.1016/j.epidem.2019.100375",
+            "URL": "https://www.sciencedirect.com/science/article/pii/S1755436519300507",
+            "author": [
+                {
+                    "family": "Worden",
+                    "given": "Lee"
+                },
+                {
+                    "family": "Ackley",
+                    "given": "Sarah F."
+                },
+                {
+                    "family": "Zipprich",
+                    "given": "Jennifer"
+                },
+                {
+                    "family": "Harriman",
+                    "given": "Kathleen"
+                },
+                {
+                    "family": "Enanoria",
+                    "given": "Wayne T. A."
+                },
+                {
+                    "family": "Wannier",
+                    "given": "Rae"
+                },
+                {
+                    "family": "Porco",
+                    "given": "Travis C."
+                }
+            ],
+            "container-title": "Epidemics",
+            "id": "worden2020f",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020,
+                        3,
+                        1
+                    ]
+                ]
+            },
+            "page": "100375",
+            "title": "Measles transmission during a large outbreak in california",
+            "type": "article-journal",
+            "volume": "30"
+        }
+    ],
+    "project_biblios": [
+        "references.bib"
+    ]
+}
