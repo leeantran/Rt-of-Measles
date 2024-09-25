@@ -1,0 +1,166 @@
+# Sởi năm 2019
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+
+library(readxl)
+library(EpiEstim)
+library(ggplot2)
+library(dplyr)
+library(janitor)
+library(tidyr)
+library(knitr)
+library(lubridate)
+
+df <- read_xlsx("C:/Users/Admin/Desktop/modelling/data/linelist_measles_hcmc.xlsx", sheet = "DS 2013-2023")
+df <- as.data.frame(df)
+```
+
+**Clean data**
+
+```{r}
+#| echo: false
+
+df <- df %>% clean_names()
+df <- df %>% rename(dates = x0_ngaynv)
+df <- df[,c("dates", "stt")]
+df_convert <- df %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+```
+
+**Ước tính hệ số lây nhiễm Rt**
+
+-   Bộ dữ liệu bao gồm danh sách ca bệnh từ **2013 - 2023**. Sử dụng **ngày khởi phát** để ước tính ***Rt*** .
+
+```{r}
+#| echo: false
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B", color = "black") +
+    labs(x = "Day", y = "Incidence", title = "2013 - 2023") +
+    theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %Y", date_breaks = "3 month")
+```
+
+```{r}
+#| echo: false
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B", color = "black") +
+    labs(x = "Day", y = "Incidence", title = "2013 - 2023") +
+    theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "2 week", limits = c(ymd("2018-01-01"), ymd("2018-12-31")))
+```
+
+-   Chúng ta sẽ ước tính ***R~t~*** cho năm 2019, theo dữ liệu thì dịch Sởi năm 2019 bắt đầu tăng liên tục từ **tháng 08/2018**, do đó chúng ta thử ước tính ***R~t~*** từ **tháng 09/2018** đến **tháng 03/2020**.
+
+```{r}
+#| echo: false
+df_filter <- filter(df_complete, dates >= "2018-09-01" & dates <= "2020-03-31")
+```
+
+```{r}
+#| echo: false
+t_start <- seq(2, nrow(df_filter)-13)
+t_end <- t_start + 13
+
+mod <- estimate_R(
+  incid = df_filter, # Dữ liệu từ 30/07/2018 đến 03/2020
+  method = "parametric_si", 
+  config = make_config(
+    list(
+      mean_si = 14.5, 
+      std_si = 3.25,
+      t_start = t_start,
+      t_end = t_end
+    )
+  )
+)
+
+df_rt <- mod$R
+df_rt$dates <- mod$dates[df_rt$t_end]
+df_rt$q1_rt <- df_rt$`Quantile.0.025(R)`
+df_rt$q3_rt <- df_rt$`Quantile.0.975(R)`
+df_rt$rt <- df_rt$`Mean(R)`
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(patchwork)
+
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2020-03-31")))
+
+p <- ggplot(df_rt, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "#FF5A5F", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "#FF5A5F") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-09-01"), ymd("2020-03-31"))) +
+  scale_y_continuous(limits = c(0, 20))
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(patchwork)
+
+p_hist <- ggplot(df_filter, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B", color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() + 
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-10-01"), ymd("2020-03-31")))
+
+p <- ggplot(df_rt, aes(x = dates)) +
+  geom_ribbon(aes(ymin = q1_rt, ymax = q3_rt), fill = "#FF5A5F", alpha = 0.3) + 
+  geom_line(aes(y = rt), color = "#FF5A5F") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "black") + 
+  labs(x = "Day", y = "Rt") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "1 month", limits = c(ymd("2018-10-01"), ymd("2020-03-31"))) +
+  scale_y_continuous(limits = c(0, 4)) +
+  annotate(
+    "segment", x = as.Date("2018-10-17"), xend = as.Date("2018-10-17"),
+    y = 4, yend = 0, color = "black") +
+  geom_rect(aes(xmin = as.Date("2018-10-17"), xmax = as.Date("2019-03-01"),
+                ymin = 3, ymax = 4),
+            fill = "#FFAE03") +
+  annotate("text", x = as.Date("2018-10-17") + 1, y = 3.5, label = "Vaccination Campaign",
+           color = "black",
+           hjust = 0, size = 9 / .pt)
+
+p_hist / p
+```
+
+::: {.callout-caution collapse="true"}
+**Bảng kết quả của Rt**
+
+```{r}
+#| echo: false
+library(knitr)
+df_rt$pct <- 1 - pnorm(1, mean = df_rt$`Mean(R)`, sd = df_rt$`Std(R)`)
+
+kable(df_rt[,c("dates", "rt", "q1_rt", "q3_rt", "pct")], col.names = c("Dates", "Estimate Rt", "Q1", "Q3", "Propability"))
+```
+:::

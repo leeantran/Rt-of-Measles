@@ -1,0 +1,434 @@
+# Những Quận/Huyện ghi nhận số ca mắc thấp
+
+| **Quận/Huyện** | **Số ca** | **Tỷ lệ %** |
+|----------------|-----------|-------------|
+| **Tân Bình**   | 22        | 3,03%       |
+| **Quận 7**     | 18        | 2,5%        |
+| **Nhà Bè**     | 17        | 2,3%        |
+| **Quận 6**     | 16        | 2,2%        |
+| **Quận 1**     | 4         | 0,5%        |
+| **Quận 3**     | 8         | 1,1%        |
+| **Quận 4**     | 2         | 0,3%        |
+| **Quận 5**     | 3         | 0,4%        |
+| **Quận 10**    | 13        | 1,8%        |
+| **Bình Thạnh** | 8         | 1,1%        |
+| **Phú Nhuận**  | 6         | 0,8%        |
+| **Gò Vấp**     | 11        | 1,5%        |
+| **Cần Giờ**    | 4         | 0,5%        |
+
+Những Quận/Huyện này có số ca mắc không liên tục, tức là không thỏa điều kiện theo phương pháp của Cori: **không đủ 12 ca bệnh** trong thời gian 14 ngày để ước tính ***R~t~***. Do đó, báo cáo chỉ vẽ biểu đồ số ca bệnh theo ngày đối với các Quận/huyện này.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+library(readxl)
+library(EpiEstim)
+library(ggplot2)
+library(dplyr)
+library(janitor)
+library(tidyr)
+library(knitr)
+library(lubridate)
+
+df1 <- read_xlsx("C:/Users/Admin/Desktop/measles/data/data_updated.xlsx", sheet = "data")
+df1 <- as.data.frame(df1)
+
+df1 <- df1 %>% clean_names()
+
+df <- df1 %>% rename(dates = ngay_khoi_phat,
+                    ngaysinh = ngay_sinh,
+                    ngaynv = ngay_nhap_vien_kham,
+                    tiemchung = tinh_trang_tiem_chung,
+                    qh = qhth,
+                    gioi = gioi_tinh)
+
+df$qh <- as.factor(df$qh)
+
+# Lấy ngày nhập viện thay cho ngày khởi phát của các ca missing
+df$dates[is.na(df$dates)] <- df$ngaynv[is.na(df$dates)]
+
+df$cd <- ifelse(df$phan_loai_chan_doan == "Loại trừ sởi", NA, df$phan_loai_chan_doan)
+df <- df[,c("dates", "ngaysinh", "tiemchung", "cd", "qh")]
+
+# Loại những ca Sởi loại trừ
+df <- na.omit(df)
+```
+
+## Tân Bình
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Tân Bình")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 7
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 7")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 11
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 11")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Nhà Bè
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Nhà Bè")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 6
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 6")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 1
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận_1")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 3
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 3")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 4
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 4")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 5
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 5")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Quận 10
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Quận 10")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Bình Thạnh
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Bình Thạnh")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Phú Nhuận
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Phú Nhuận")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Gò Vấp
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Gò Vấp")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
+
+## Cần Giờ
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+df_qh <- filter(df, qh == "Cần Giờ")
+
+df_convert <- df_qh %>% group_by(dates) %>% 
+  summarise(I = n())
+
+df_complete <- df_convert %>%
+    complete(dates = seq(min(dates), max(dates), by = "day")) %>%
+    replace_na(list(I = 0))
+
+df_complete$dates <- as.Date(df_complete$dates)
+
+ggplot(df_complete, aes(x = dates, y = I)) +
+    geom_histogram(stat = "identity", binwidth = 1, width = 1, fill = "#087E8B",
+                   color = "black") +
+    labs(x = "Day", y = "Incidence") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, hjust = 1, size = 8)) + 
+    scale_x_date(date_labels = "%b %d", date_breaks = "1 week")
+```
